@@ -7,11 +7,13 @@ SOURCES += \
         main.cpp \
     Generator/subset.cpp \
     Generator/combination.cpp \
+    Generator/permutation.cpp \
     Generator/Task/knapsack_s.cpp \
     Generator/Task/boat.cpp
 
 HEADERS += \
     Generator/subset.h \
     Generator/combination.h \
+    Generator/permutation.h \
     Generator/Task/knapsack_s.h \
     Generator/Task/boat.h
