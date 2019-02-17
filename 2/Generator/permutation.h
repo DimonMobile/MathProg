@@ -35,6 +35,7 @@ private:
     // cache
     int m_count;
     bool m_countCached;
+    bool m_reseted;
 };
 
 

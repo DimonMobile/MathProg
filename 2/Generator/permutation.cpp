@@ -11,6 +11,7 @@ Permutation::Permutation(int n)
 void Permutation::reset(int n)
 {
     m_countCached = false;
+    m_reseted = true;
     m_n = n;
     m_permutation.clear();
     m_directions.clear();
@@ -35,15 +36,21 @@ int Permutation::count()
 
 std::vector<int> Permutation::next()
 {
-    int resultIdx;
-    if (findMobile(&resultIdx))
+    if (m_reseted)
     {
-        int pointToIdx = pointsTo(resultIdx);
-        std::swap(m_permutation[static_cast<size_t>(resultIdx)], m_permutation[static_cast<size_t>(pointToIdx)]);
-        std::swap(m_directions[static_cast<size_t>(resultIdx)], m_directions[static_cast<size_t>(pointToIdx)]);
+        m_reseted = false;
+    }
+    else
+    {
+        int resultIdx;
         if (findMobile(&resultIdx))
         {
-            invertAllMoreThen(resultIdx);
+            int pointToIdx = pointsTo(resultIdx);
+            int maxMobileValue = m_permutation[static_cast<size_t>(resultIdx)];
+            std::swap(m_permutation[static_cast<size_t>(resultIdx)], m_permutation[static_cast<size_t>(pointToIdx)]);
+            std::swap(m_directions[static_cast<size_t>(resultIdx)], m_directions[static_cast<size_t>(pointToIdx)]);
+
+            invertAllMoreThen(maxMobileValue);
         }
     }
     return m_permutation;
@@ -59,8 +66,13 @@ int Permutation::factorial(int from)
 
 bool Permutation::findMobile(int *out)
 {
-    size_t maxIdx = 0;
+     size_t maxIdx = 0;
     bool someWhatFind = false;
+
+    for(size_t i = 0 ; i < static_cast<size_t>(m_n); ++i)
+        if (m_permutation[i] < m_permutation[maxIdx])
+            maxIdx = i;
+
     for(size_t i = 0 ; i < static_cast<size_t>(m_n); ++i)
     {
         if (m_permutation[i] > m_permutation[maxIdx])
@@ -102,7 +114,7 @@ int Permutation::pointsTo(int from)
 void Permutation::invertAllMoreThen(int base)
 {
     for(size_t i = 0 ; i < static_cast<size_t>(m_n); ++i)
-        if (static_cast<size_t>(base) != i && m_permutation[i] > m_permutation[static_cast<size_t>(base)])
+        if (m_permutation[i] > base)
             m_directions[i] = (m_directions[i] == Direction::Left) ? Direction::Right : Direction::Left;
 }
 
