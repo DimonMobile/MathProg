@@ -9,11 +9,13 @@ SOURCES += \
     Generator/combination.cpp \
     Generator/permutation.cpp \
     Generator/Task/knapsack_s.cpp \
-    Generator/Task/boat.cpp
+    Generator/Task/boat.cpp \
+    Generator/Task/salesman.cpp
 
 HEADERS += \
     Generator/subset.h \
     Generator/combination.h \
     Generator/permutation.h \
     Generator/Task/knapsack_s.h \
-    Generator/Task/boat.h
+    Generator/Task/boat.h \
+    Generator/Task/salesman.h
