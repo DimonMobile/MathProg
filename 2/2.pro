@@ -10,7 +10,8 @@ SOURCES += \
     Generator/permutation.cpp \
     Generator/Task/knapsack_s.cpp \
     Generator/Task/boat.cpp \
-    Generator/Task/salesman.cpp
+    Generator/Task/salesman.cpp \
+    Generator/accomodation.cpp
 
 HEADERS += \
     Generator/subset.h \
@@ -18,4 +19,5 @@ HEADERS += \
     Generator/permutation.h \
     Generator/Task/knapsack_s.h \
     Generator/Task/boat.h \
-    Generator/Task/salesman.h
+    Generator/Task/salesman.h \
+    Generator/accomodation.h
