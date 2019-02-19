@@ -13,7 +13,6 @@ public:
 
     void reset(int n);
     int count();
-
     std::vector<int> next();
 
 private:
@@ -22,7 +21,6 @@ private:
         Left,
         Right
     };
-
     int factorial(int from);
     bool findMobile(int *out);
     int pointsTo(int from);
