@@ -23,7 +23,7 @@ public:
 private:
     Generator::Combination *m_combinationGenerator;
     Generator::Permutation *m_permutationGenerator;
-    uint m_currentPermutation;
+    int m_currentPermutation;
 };
 
 } // namespace Generator
