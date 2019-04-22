@@ -20,6 +20,7 @@
 #include <iomanip>
 #include <vector>
 #include <limits>
+#include <algorithm>
 
 typedef int T;
 
@@ -48,54 +49,61 @@ void printMatrix(const std::vector<std::vector<T>> &param)
 
 void prepareMatrix(std::vector<std::vector<T>> &param)
 {
-    param.resize(5);
+    param.resize(6);
     for(std::vector<T> &innerVector : param)
-        innerVector.resize(5);
+        innerVector.resize(6);
+
+    for(size_t i = 0 ; i < param.size(); ++i)
+    {
+        param[i][0] = static_cast<T>(i);
+        param[0][i] = static_cast<T>(i);
+    }
 
     // first column
-    param[0][0] = Constants::infinity;
-    param[1][0] = Constants::variantId;
-    param[2][0] = Constants::variantId + 2;
-    param[3][0] = Constants::variantId + 17;
-    param[4][0] = 93 - Constants::variantId;
+    param[1][1] = Constants::infinity;
+    param[2][1] = Constants::variantId;
+    param[3][1] = Constants::variantId + 2;
+    param[4][1] = Constants::variantId + 17;
+    param[5][1] = 93 - Constants::variantId;
 
     // second column
-    param[0][1] = 2 * Constants::variantId;
-    param[1][1] = Constants::infinity;
-    param[2][1] = 3 * Constants::variantId;
-    param[3][1] = 58 - Constants::variantId;
-    param[4][1] = 66 + Constants::variantId;
+    param[1][2] = 2 * Constants::variantId;
+    param[2][2] = Constants::infinity;
+    param[3][2] = 3 * Constants::variantId;
+    param[4][2] = 58 - Constants::variantId;
+    param[5][2] = 66 + Constants::variantId;
 
     // third column
-    param[0][2] = 21 + Constants::variantId;
-    param[1][2] = 15 + Constants::variantId;
-    param[2][2] = Constants::infinity;
-    param[3][2] = 4 * Constants::variantId;
-    param[4][2] = 52;
+    param[1][3] = 21 + Constants::variantId;
+    param[2][3] = 15 + Constants::variantId;
+    param[3][3] = Constants::infinity;
+    param[4][3] = 4 * Constants::variantId;
+    param[5][3] = 52;
 
     // fourth column
-    param[0][3] = Constants::infinity;
-    param[1][3] = 68 - Constants::variantId;
-    param[2][3] = 86;
-    param[3][3] = Constants::infinity;
-    param[4][3] = 13 + Constants::variantId;
+    param[1][4] = Constants::infinity;
+    param[2][4] = 68 - Constants::variantId;
+    param[3][4] = 86;
+    param[4][4] = Constants::infinity;
+    param[5][4] = 13 + Constants::variantId;
 
     // fifth columnt
-    param[0][4] = Constants::variantId;
-    param[1][4] = 84 - Constants::variantId;
-    param[2][4] = 49 + Constants::variantId;
-    param[3][4] = 3 * Constants::variantId;
-    param[4][4] = Constants::infinity;
+    param[1][5] = Constants::variantId;
+    param[2][5] = 84 - Constants::variantId;
+    param[3][5] = 49 + Constants::variantId;
+    param[4][5] = 3 * Constants::variantId;
+    param[5][5] = Constants::infinity;
 }
 
 std::vector<T> getMinRowVector(std::vector<std::vector<T>> &source)
 {
     std::vector<T> result;
     result.reserve(source.size());
-    for(size_t i = 0 ; i < source.size(); ++i)
+    result.push_back(0);
+    for(size_t i = 1 ; i < source.size(); ++i)
     {
-        size_t minIdx = 0;
-        for(size_t j = 0 ; j < source[i].size(); ++j)
+        size_t minIdx = 1;
+        for(size_t j = 1 ; j < source[i].size(); ++j)
             if (source[i][j] < source[i][minIdx])
                 minIdx = j;
         result.push_back(source[i][minIdx]);
@@ -108,10 +116,11 @@ std::vector<T> getMinColumnVector(std::vector<std::vector<T>> &source)
 {
     std::vector<T> result;
     result.reserve(source[0].size());
-    for(size_t i = 0 ; i < source[0].size(); ++i)
+    result.push_back(0);
+    for(size_t i = 1 ; i < source[0].size(); ++i)
     {
-        size_t minIdx = 0;
-        for(size_t j = 0 ; j < source.size(); ++j)
+        size_t minIdx = 1;
+        for(size_t j = 1 ; j < source.size(); ++j)
             if (source[j][i] < source[minIdx][i])
                 minIdx = j;
         result.push_back(source[minIdx][i]);
@@ -124,32 +133,79 @@ void printVector(const std::vector<T> &source, bool vertical = false)
     if (vertical)
     {
         std::cout << "\n\t***Vertical vector***" << std::endl;
-        for(const auto &i : source)
-            std::cout << std::setw(7) << i << std::endl;
+        for(size_t i = 0 ; i < source.size(); ++i)
+            std::cout << std::setw(7) << source[i] << std::endl;
     }
     else
     {
         std::cout << "\n\t***Horizontal vector***" << std::endl;
-        for(const auto &i : source)
-            std::cout << std::setw(7) << i;
+        for(size_t i = 0 ; i < source.size(); ++i)
+            std::cout << std::setw(7) << source[i];
     }
     std::cout << std::endl;
 }
 
 void reductRows(std::vector<std::vector<T>> &source, const std::vector<T> by)
 {
-    for(size_t i = 0 ; i < by.size(); ++i)
-        for(size_t j = 0 ; j < source[i].size(); ++j)
+    for(size_t i = 1 ; i < by.size(); ++i)
+        for(size_t j = 1 ; j < source[i].size(); ++j)
             if (source[i][j] != Constants::infinity)
                 source[i][j] -= by[i];
 }
 
 void reductColumns(std::vector<std::vector<T>> &source, const std::vector<T> by)
 {
-    for(size_t i = 0 ; i < by.size(); ++i)
-        for(size_t j = 0 ; j < source.size(); ++j)
+    for(size_t i = 1 ; i < by.size(); ++i)
+        for(size_t j = 1 ; j < source.size(); ++j)
             if (source[j][i] != Constants::infinity)
                 source[j][i] -= by[i];
+}
+
+void deleteMinZero(std::vector<std::vector<T>> &source)
+{
+    std::vector<std::vector<T>> d(source.size());
+    for(size_t i = 0 ; i < d.size(); ++i)
+        d[i].resize(source.size());
+
+    for(size_t i = 0 ; i < d.size(); ++i)
+    {
+        d[i][0] = static_cast<T>(i);
+        d[0][i] = static_cast<T>(i);
+    }
+
+    for(size_t i = 1; i < d.size(); ++i)
+        for(size_t j = 1; j < d.size(); ++j)
+            d[i][j] = -1;
+
+    for(size_t i = 1; i < source.size(); ++i)
+        for(size_t j = 1; j < source.size(); ++j)
+            if (source[i][j] == 0)
+            {
+                size_t minRowIdx = 1;
+                size_t minColumnIdx = 1;
+                for(size_t row = 1; row < source.size(); ++row)
+                    if ( (source[row][j] < source[minRowIdx][j] && row != i) || minRowIdx == i)
+                        minRowIdx = row;
+
+                for(size_t column = 1; column < source.size(); ++column)
+                    if ((source[i][column] < source[i][minColumnIdx] && column != j) || minColumnIdx == j)
+                        minColumnIdx = column;
+
+                d[i][j] = source[i][minColumnIdx] + source[minRowIdx][j];
+            }
+
+    std::pair<size_t, size_t> minIdx = std::make_pair(1, 1);
+    for(size_t i = 1 ; i < d.size(); ++i)
+        for(size_t j = 1 ; j < d.size(); ++j)
+            if ( (d[i][j] != -1 && d[i][j] < d[minIdx.first][minIdx.second]) || d[minIdx.first][minIdx.second] == -1 )
+            {
+                minIdx.first = i;
+                minIdx.second = j;
+            }
+
+
+
+    printMatrix(source);
 }
 
 int main()
@@ -166,5 +222,6 @@ int main()
     printVector(columnVector);
     reductColumns(sourceMatrix, columnVector);
     printMatrix(sourceMatrix);
+    deleteMinZero(sourceMatrix);
     return 0;
 }
