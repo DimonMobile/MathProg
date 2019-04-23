@@ -165,7 +165,7 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
 {
     std::vector<std::vector<T>> d(source.size());
     for(size_t i = 0 ; i < d.size(); ++i)
-        d[i].resize(sourc e.size());
+        d[i].resize(source.size());
 
     for(size_t i = 0 ; i < d.size(); ++i)
     {
@@ -206,33 +206,30 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
     printMatrix(d);
     std::cout << source[maxIdx.first][0] << " - > " << source[0][maxIdx.second] << std::endl;
 
-    T row = source[maxIdx.first][0];
-    T column = source[0][maxIdx.second];
-    size_t foundRow = -1;
-    size_t foundColmn = -1;
+    T realRow = source[maxIdx.first][0];
+    T realColumn = source[0][maxIdx.second];
+    T indexRow = -1;
+    T indexColmn = -1;
     for(size_t i = 1; i < source.size(); ++i)
-        if (source[0][i] == row)
+        if (source[i][0] == realColumn)
         {
-            foundRow = i;
+            indexRow = i;
             break;
         }
 
     for(size_t i = 1; i < source.size(); ++i)
-        if (source[0][i] == column)
+        if (source[0][i] == realRow)
         {
-            foundColmn = i;
+            indexColmn = i;
             break;
         }
 
-    if (foundColmn != -1 && foundRow != -1)
-        source[foundColmn][foundRow] = Constants::infinity;
+    if (indexColmn != -1 && indexRow != -1)
+        source[indexRow][indexColmn] = Constants::infinity;
 
     source.erase(source.begin() + maxIdx.first);
     for(std::vector<T> &inVector : source)
         inVector.erase(inVector.begin() + maxIdx.second);
-
-
-
 }
 
 int main()
