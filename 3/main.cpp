@@ -156,7 +156,7 @@ void reductRows(std::vector<std::vector<T>> &source, const std::vector<T> by)
 void reductColumns(std::vector<std::vector<T>> &source, const std::vector<T> by)
 {
     for(size_t i = 1 ; i < by.size(); ++i)
-        for(size_t j = 1 ; j < source.size(); ++j)
+        for(size_t j = 1 ; j < source[0].size(); ++j)
             if (source[j][i] != Constants::infinity)
                 source[j][i] -= by[i];
 }
@@ -165,7 +165,7 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
 {
     std::vector<std::vector<T>> d(source.size());
     for(size_t i = 0 ; i < d.size(); ++i)
-        d[i].resize(source.size());
+        d[i].resize(sourc e.size());
 
     for(size_t i = 0 ; i < d.size(); ++i)
     {
@@ -194,22 +194,42 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
                 d[i][j] = source[i][minColumnIdx] + source[minRowIdx][j];
             }
 
-    std::pair<size_t, size_t> minIdx = std::make_pair(1, 1);
+    std::pair<size_t, size_t> maxIdx = std::make_pair(1, 1);
     for(size_t i = 1 ; i < d.size(); ++i)
         for(size_t j = 1 ; j < d.size(); ++j)
-            if ( (d[i][j] != -1 && d[i][j] < d[minIdx.first][minIdx.second]) || d[minIdx.first][minIdx.second] == -1 )
+            if ( (d[i][j] != -1 && d[i][j] > d[maxIdx.first][maxIdx.second]) || d[maxIdx.first][maxIdx.second] == -1 )
             {
-                minIdx.first = i;
-                minIdx.second = j;
+                maxIdx.first = i;
+                maxIdx.second = j;
             }
 
     printMatrix(d);
-    std::cout << source[minIdx.first][0] << " - > " << source[0][minIdx.second] << std::endl;
-    source[minIdx.second][minIdx.first] = Constants::infinity;
+    std::cout << source[maxIdx.first][0] << " - > " << source[0][maxIdx.second] << std::endl;
 
-    source.erase(source.begin() + minIdx.first);
+    T row = source[maxIdx.first][0];
+    T column = source[0][maxIdx.second];
+    size_t foundRow = -1;
+    size_t foundColmn = -1;
+    for(size_t i = 1; i < source.size(); ++i)
+        if (source[0][i] == row)
+        {
+            foundRow = i;
+            break;
+        }
+
+    for(size_t i = 1; i < source.size(); ++i)
+        if (source[0][i] == column)
+        {
+            foundColmn = i;
+            break;
+        }
+
+    if (foundColmn != -1 && foundRow != -1)
+        source[foundColmn][foundRow] = Constants::infinity;
+
+    source.erase(source.begin() + maxIdx.first);
     for(std::vector<T> &inVector : source)
-        inVector.erase(inVector.begin() + minIdx.second);
+        inVector.erase(inVector.begin() + maxIdx.second);
 
 
 
