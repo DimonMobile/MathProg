@@ -32,7 +32,8 @@ namespace Constants
 
 namespace Global
 {
-    // reserved for future implementation
+    std::vector<std::vector<T>> sourceMatrix;// reserved for future implementation
+    T wayLength = 0;
 } // namespace Global
 
 
@@ -93,6 +94,8 @@ void prepareMatrix(std::vector<std::vector<T>> &param)
     param[3][5] = 49 + Constants::variantId;
     param[4][5] = 3 * Constants::variantId;
     param[5][5] = Constants::infinity;
+
+    Global::sourceMatrix = param;
 }
 
 std::vector<T> getMinRowVector(std::vector<std::vector<T>> &source)
@@ -227,6 +230,8 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
     if (indexColmn != -1 && indexRow != -1)
         source[indexRow][indexColmn] = Constants::infinity;
 
+    Global::wayLength += Global::sourceMatrix[realRow][realColumn];
+    std::cout << "Length: " << Global::wayLength << std::endl;
     source.erase(source.begin() + maxIdx.first);
     for(std::vector<T> &inVector : source)
         inVector.erase(inVector.begin() + maxIdx.second);
