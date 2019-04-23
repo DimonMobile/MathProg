@@ -203,9 +203,16 @@ void deleteMinZero(std::vector<std::vector<T>> &source)
                 minIdx.second = j;
             }
 
+    printMatrix(d);
+    std::cout << source[minIdx.first][0] << " - > " << source[0][minIdx.second] << std::endl;
+    source[minIdx.second][minIdx.first] = Constants::infinity;
+
+    source.erase(source.begin() + minIdx.first);
+    for(std::vector<T> &inVector : source)
+        inVector.erase(inVector.begin() + minIdx.second);
 
 
-    printMatrix(source);
+
 }
 
 int main()
@@ -213,15 +220,18 @@ int main()
     std::vector<std::vector<T>> sourceMatrix;
     prepareMatrix(sourceMatrix);
 
-    printMatrix(sourceMatrix);
-    std::vector<T> rowVector = getMinRowVector(sourceMatrix);
-    printVector(rowVector, true);
-    reductRows(sourceMatrix, rowVector);
-    printMatrix(sourceMatrix);
-    std::vector<T> columnVector = getMinColumnVector(sourceMatrix);
-    printVector(columnVector);
-    reductColumns(sourceMatrix, columnVector);
-    printMatrix(sourceMatrix);
-    deleteMinZero(sourceMatrix);
+    for(int i = 0 ; i < 5; ++i)
+    {
+        printMatrix(sourceMatrix);
+        std::vector<T> rowVector = getMinRowVector(sourceMatrix);
+        printVector(rowVector, true);
+        reductRows(sourceMatrix, rowVector);
+        printMatrix(sourceMatrix);
+        std::vector<T> columnVector = getMinColumnVector(sourceMatrix);
+        printVector(columnVector);
+        reductColumns(sourceMatrix, columnVector);
+        printMatrix(sourceMatrix);
+        deleteMinZero(sourceMatrix);
+    }
     return 0;
 }
