@@ -5,8 +5,10 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp \
-    recursion.cpp
+    recursion.cpp \
+    dynamic.cpp
 
 HEADERS += \
     recursion.h \
-    utils.h
+    utils.h \
+    dynamic.h
