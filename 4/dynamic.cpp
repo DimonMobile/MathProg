@@ -18,6 +18,7 @@
 
 #include <cmath>
 #include <memory>
+#include <cstring>
 
 #include "utils.h"
 
@@ -29,17 +30,19 @@ int livenshtein(const char *s1, int len1, const char *s2, int len2)
     if (len1 == 0 || len2 == 0)
         return static_cast<int>(abs(len1-len2));
 
-    int **d = new int*[len1];
-    for(int i = 0 ; i < len1; ++i)
-        d[i] = new int[len2];
+    int **d = new int*[len1+1];
+    for(int i = 0 ; i < len1+1; ++i)
+    {
+        d[i] = new int[len2+1];
+    }
 
-    for(int i = 0 ; i < len1; ++i) d[i][0] = i;
-    for(int i = 0 ; i < len2; ++i) d[0][i] = i;
+    for(int i = 0 ; i <= len1; ++i) d[i][0] = i;
+    for(int i = 0 ; i <= len2; ++i) d[0][i] = i;
 
-    for(int i = 1; i < len1; ++i)
-        for(int j = 1; j < len2; ++j)
-            d[i][j] = Utils::min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (s1[i-1] == s2[j-2] ? 0 : 1));
-    int result = d[len1-1][len2-2];
+    for(int i = 1; i < len1 + 1; ++i)
+        for(int j = 1; j < len2 + 1; ++j)
+            d[i][j] = Utils::min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (s1[i-1] == s2[j-1] ? 0 : 1));
+    int result = d[len1][len2];
     for(int i = 0 ; i < len1; ++i)
         delete[] d[i];
     delete[] d;

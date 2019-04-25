@@ -26,8 +26,8 @@
 
 namespace Constants
 {
-    const size_t firstStringSequenceLength = 15;
-    const size_t secondStringSequenceLength = 25;
+    const size_t firstStringSequenceLength = 10;
+    const size_t secondStringSequenceLength = 30;
     const double stringLengthDivisors[] = {1 / 25., 1 / 20., 1 / 15., 1 / 10., 1 / 5., 1 / 2., 1.};
 } // namespace Constants
 
@@ -48,9 +48,6 @@ void livenshteinMeat()
         int firstLength = static_cast<int>(Constants::firstStringSequenceLength * Constants::stringLengthDivisors[i]);
         int secondLength = static_cast<int>(Constants::firstStringSequenceLength * Constants::stringLengthDivisors[i]);
 
-        std::cout << ptr1.get() << std::endl;
-        std::cout << ptr2.get() << std::endl;
-
         std::cout << std::setw(3) << i + 1 << " passing[" << std::setw(3) << firstLength << ',' << std::setw(3) << secondLength << ']';
 
         int resultR = Recursion::livenshtein(   ptr1.get(), firstLength
@@ -70,9 +67,7 @@ void livenshteinMeat()
             passed = true;
         }
         else
-        {
             std::cout << "FAIL  - ";
-        }
 
         std::cout << "clocs[r/d]:" << std::setw(8) << elapsedR << '/' << std::setw(8) << elapsedD << ", result:" << std::setw(10) << resultR;
         if (!passed)
