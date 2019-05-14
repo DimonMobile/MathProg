@@ -21,7 +21,8 @@
 namespace Recursion
 {
 
-int livenshtein(const char *s1, int len1, const char *s2, int len2);
+int livenshtein(const char *s1, int len1, const char *s2, int len2, int deep = -1);
+int lcs_length(const char *s1, const char *s2);
 
 } // namespace Recursion
 

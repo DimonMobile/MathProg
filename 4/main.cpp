@@ -82,6 +82,8 @@ void livenshteinMeat()
 
 int main()
 {
-    livenshteinMeat();
+//    livenshteinMeat();
+//    Recursion::livenshtein("vol", 4, "kolun", 5, 0);
+    std::cout << Recursion::lcs_length("TBHDSAV", "KIBYSV") << std::endl;
     return 0;
 }
