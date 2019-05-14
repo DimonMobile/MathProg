@@ -19,6 +19,8 @@
 #define UTILS_H
 
 #include <memory>
+#include <cmath>
+#include <cstring>
 
 namespace Utils
 {
@@ -30,14 +32,15 @@ namespace Utils
     }
 
     template<typename T = char>
-    std::unique_ptr<T> createString(const size_t len)
+    std::tuple<std::unique_ptr<T>, std::unique_ptr<T>> createString(const size_t len)
     {
-        if (len <= 0)
-            return std::unique_ptr<T>();
-        std::unique_ptr<T> result(new T[len]);
+        std::unique_ptr<T> result1(new T[len]);
         for(size_t i = 0 ; i < len; ++i)
-            result.get()[i] = (rand() % 2 == 0) ? ('a' + rand() % ('z' - 'a') ) : ('A' + rand() % ('Z' - 'A'));
-        return result;
+            result1.get()[i] = (rand() % 2 == 0) ? ('a' + rand() % ('z' - 'a') ) : ('A' + rand() % ('Z' - 'A'));
+        size_t secondLength = static_cast<size_t>(round(5 / 6.0));
+        std::unique_ptr<T> result2(new T[len * secondLength + 1]);
+        strncpy(result2.get(), result1.get(), secondLength);
+        return std::tuple<std::unique_ptr<T>, std::unique_ptr<T>>(result1.release(), result2.release());
     }
 } // namespace Utils
 

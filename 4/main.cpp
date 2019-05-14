@@ -26,8 +26,7 @@
 
 namespace Constants
 {
-    const size_t firstStringSequenceLength = 15;
-    const size_t secondStringSequenceLength = 25;
+    const size_t stringSequenceLength = 250;
     const double stringLengthDivisors[] = {1 / 25., 1 / 20., 1 / 15., 1 / 10., 1 / 5., 1 / 2., 1.};
 } // namespace Constants
 
@@ -36,8 +35,10 @@ void livenshteinMeat()
     int testCount = static_cast<int>(sizeof(Constants::stringLengthDivisors) / sizeof(double));
     std::cout << "\tTesting, pending tests:\t" << testCount << std::endl;
 
-    std::unique_ptr<char> ptr1(Utils::createString(Constants::firstStringSequenceLength));
-    std::unique_ptr<char> ptr2(Utils::createString(Constants::secondStringSequenceLength));
+    auto tuple = Utils::createString(Constants::stringSequenceLength);
+
+    std::unique_ptr<char> ptr1(std::get<0>(tuple).release());
+    std::unique_ptr<char> ptr2(std::get<1>(tuple).release());
 
     int testsPassed = 0;
 
@@ -45,11 +46,8 @@ void livenshteinMeat()
     {
         clock_t startR = clock();
 
-        int firstLength = static_cast<int>(Constants::firstStringSequenceLength * Constants::stringLengthDivisors[i]);
-        int secondLength = static_cast<int>(Constants::firstStringSequenceLength * Constants::stringLengthDivisors[i]);
-
-        std::cout << ptr1.get() << std::endl;
-        std::cout << ptr2.get() << std::endl;
+        int firstLength = static_cast<int>(Constants::stringSequenceLength * Constants::stringLengthDivisors[i]);
+        int secondLength = static_cast<int>(round(Constants::stringSequenceLength * (5 / 6.0) * Constants::stringLengthDivisors[i]));
 
         std::cout << std::setw(3) << i + 1 << " passing[" << std::setw(3) << firstLength << ',' << std::setw(3) << secondLength << ']';
 
