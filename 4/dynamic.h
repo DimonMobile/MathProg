@@ -22,6 +22,7 @@ namespace Dynamic
 {
 
 int livenshtein(const char *s1, int len1, const char *s2, int len2);
+int lcs_length(const char *s1, const char *s2);
 
 } // namespace Dynamic
 

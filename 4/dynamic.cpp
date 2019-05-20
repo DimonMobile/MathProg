@@ -15,7 +15,7 @@
  * contact the author of this file, or the owner of the project in which
  * this file belongs to.
 *****************************************************************************/
-
+#include "dynamic.h"
 #include <cmath>
 #include <memory>
 #include <cstring>
@@ -47,6 +47,30 @@ int livenshtein(const char *s1, int len1, const char *s2, int len2)
         delete[] d[i];
     delete[] d;
     return result;
+}
+
+int lcs_length(const char *s1, const char *s2)
+{
+    int len1 = static_cast<int>(strlen(s1));
+    int len2 = static_cast<int>(strlen(s2));
+
+    int **d = new int*[len1];
+    for(int i = 0 ; i < len1; ++i)
+    {
+        d[i] = new int[len2];
+        memset(d[i], 0, sizeof(int) * len2);
+    }
+    for(int i = 0 ; i < len1; ++i)
+    {
+        for(int j = 0 ; j < len2; ++j)
+        {
+            int top = (i - 1 < 0) ? 0 : d[i-1][j];
+            int left = (j - 1 < 0) ? 0 : d[i][j-1];
+            int max = std::max(left, top);
+            d[i][j] = (s1[i] == s2[j]) ? max + 1 : max;
+        }
+    }
+    return d[len1-1][len2-1];
 }
 
 } // namespace Dynamic

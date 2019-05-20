@@ -80,10 +80,31 @@ void livenshteinMeat()
     std::cout << "\tCompleted\t" << testsPassed << '/' << testCount << " tests passed" << std::endl;
 }
 
+int lcsMeat()
+{
+    for(int i = 5; i <= 50; i+=1)
+    {
+        auto ptr1 = Utils::createSingleString(i);
+        auto ptr2 = Utils::createSingleString(i);
+
+        clock_t recTime = clock();
+        int rec = Recursion::lcs_length(ptr1.get(), ptr2.get());
+        recTime = clock() - recTime;
+
+        clock_t dynTime = clock();
+        int dyn = Dynamic::lcs_length(ptr1.get(), ptr2.get());
+        dynTime = clock() - dynTime;
+
+        std::cout << std::setw(3) << i << std::setw(10) << recTime << std::setw(10) << dynTime << std::endl;
+    }
+}
+
 int main()
 {
+    lcsMeat();
 //    livenshteinMeat();
-//    Recursion::livenshtein("vol", 4, "kolun", 5, 0);
-    std::cout << Recursion::lcs_length("TBHDSAV", "KIBYSV") << std::endl;
+//    std::cout << Recursion::livenshtein("vol", 3, "kolun", 5) << std::endl;
+//    std::cout << Recursion::lcs_length("TBHDSAV", "KIBYSV") << std::endl;
+//    std::cout << Dynamic::lcs_length("TBHDSAV", "KIBYSV") << std::endl;
     return 0;
 }

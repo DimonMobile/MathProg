@@ -42,6 +42,16 @@ namespace Utils
         strncpy(result2.get(), result1.get(), secondLength);
         return std::tuple<std::unique_ptr<T>, std::unique_ptr<T>>(result1.release(), result2.release());
     }
+
+    template<typename T = char>
+    std::unique_ptr<T> createSingleString(const size_t len)
+    {
+        std::unique_ptr<T> result(new T[len]);
+        for(size_t i = 0 ; i < len; ++i)
+            result.get()[i] = (rand() % 2 == 0) ? ('a' + rand() % ('z' - 'a') ) : ('A' + rand() % ('Z' - 'A'));
+        result.get()[len-1] = '\0';
+        return result;
+    }
 } // namespace Utils
 
 #endif // UTILS_H
