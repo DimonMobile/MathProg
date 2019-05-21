@@ -33,6 +33,7 @@ int main()
 {
     using namespace Utils;
     Matrix sourceMatrix = generateMatrix();
-    std::cout << Graph::bfs(sourceMatrix) << std::endl;
+    std::cout << "BFS: " << Graph::bfs(sourceMatrix) << std::endl;
+    std::cout << "DFS: " << Graph::dfs(sourceMatrix) << std::endl;
     return 0;
 }

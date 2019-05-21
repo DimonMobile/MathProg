@@ -34,6 +34,7 @@ Matrix generateMatrix()
     result[3][0] = 1;
     result[3][4] = 1;
     result[4][0] = 1;
+    result[4][4] = 1;
 
     return result;
 }

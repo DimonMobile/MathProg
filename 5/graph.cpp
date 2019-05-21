@@ -18,6 +18,7 @@
 #include "graph.h"
 
 #include <queue>
+#include <stack>
 #include <set>
 #include <algorithm>
 
@@ -48,7 +49,33 @@ std::vector<int> bfs(const Utils::Matrix &matrix)
 
 std::vector<int> dfs(const Utils::Matrix &matrix)
 {
-
+    std::vector<int> result;
+    std::stack<int> stack;
+    std::vector<bool> visited(matrix.size());
+    std::fill(visited.begin(), visited.end(), false);
+    stack.push(0);
+    visited[0] = true;
+    while(!stack.empty())
+    {
+        int currentVertex = stack.top();
+        bool isFound = false;
+        for(size_t i = 0 ; i < matrix.size(); ++i)
+        {
+            if (!visited[i] && matrix[currentVertex][i] == 1)
+            {
+                visited[i] = true;
+                stack.push(i);
+                isFound = true;
+                break;
+            }
+        }
+        if (!isFound)
+        {
+            result.push_back(currentVertex);
+            stack.pop();
+        }
+    }
+    return result;
 }
 
 } // namespace Graph
