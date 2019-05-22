@@ -24,7 +24,7 @@
 std::ostream & operator << (std::ostream &stream, const std::vector<int> &vec)
 {
     for(size_t i = 0 ; i < vec.size(); ++i)
-        stream << vec[i] << ((i == vec.size() - 1) ? '\n' : ',');
+        stream << vec[i] << ((i == vec.size() - 1) ? ' ' : ',');
     return stream;
 }
 
@@ -33,6 +33,14 @@ int main()
 {
     using namespace Utils;
     Matrix sourceMatrix = generateMatrix();
+    // convertions to list and from test
+    IncidenceList list = Utils::matrixToIncidenceList(sourceMatrix);
+    Matrix convertedMatrix = Utils::incidenceListToMatrix(list);
+    // results must be same
+    std::cout << "\tBefore conversions:" << std::endl;
+    std::cout << "BFS: " << Graph::bfs(sourceMatrix) << std::endl;
+    std::cout << "DFS: " << Graph::dfs(sourceMatrix) << std::endl;
+    std::cout << "\tAfter conversions:" << std::endl;
     std::cout << "BFS: " << Graph::bfs(sourceMatrix) << std::endl;
     std::cout << "DFS: " << Graph::dfs(sourceMatrix) << std::endl;
     return 0;

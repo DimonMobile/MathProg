@@ -39,4 +39,45 @@ Matrix generateMatrix()
     return result;
 }
 
+IncidenceList matrixToIncidenceList(const Matrix &matrix)
+{
+    IncidenceList result;
+    for(size_t i = 0 ; i < matrix.size(); ++i)
+    {
+        List currentList;
+        currentList.push_back(static_cast<int>(i));
+        for(size_t j = 0 ; j < matrix[i].size(); ++j)
+        {
+            if (matrix[i][j] != 0)
+                currentList.push_back(j);
+        }
+        result.push_back(currentList);
+    }
+    return result;
+}
+
+Matrix incidenceListToMatrix(const IncidenceList &incidenceList)
+{
+    Matrix result;
+    result.resize(incidenceList.size());
+    for(auto &vec : result)
+        vec.resize(result.size());
+    for(auto it = incidenceList.begin(); it != incidenceList.end(); ++it)
+    {
+        int currentVertex = 0;
+        for(auto jt = it->begin(); jt != it->end(); ++jt)
+        {
+            if (jt == it->begin())
+            {
+                currentVertex = *jt;
+            }
+            else
+            {
+                result[currentVertex][*jt] = 1;
+            }
+        }
+    }
+    return result;
+}
+
 } // namespace Utils

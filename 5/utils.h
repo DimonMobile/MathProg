@@ -19,11 +19,16 @@
 #define UTILS_H
 
 #include <vector>
+#include <list>
 
 namespace Utils
 {
     typedef std::vector<std::vector<int>> Matrix;
+    typedef std::list<int> List;
+    typedef std::list<List> IncidenceList;
     Matrix generateMatrix();
+    IncidenceList matrixToIncidenceList(const Matrix &matrix);
+    Matrix incidenceListToMatrix(const IncidenceList &incidenceList);
 } // namespace Utils
 
 #endif // UTILS_H
